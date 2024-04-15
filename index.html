@@ -6,6 +6,8 @@
 		<title>Cat & Mouse 2: Reinforcement Learning</title>
 		<link rel="icon" href="images/jm.png">
 		<link rel = "stylesheet" href="style.css">
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 	</head>
 
 	<nav class = "navbar">
@@ -43,23 +45,100 @@
 		<br>
 		<div class = "mid_info">
 			<div class = "algorithm">
-				<div class = "text">Cat's Algorithm</div>
-				The cat was programmed to seek the shortest path towards the mouse with the idea inspired by <b><a href = "https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm" target = "_blank">dijkstra's algorithm</a></b>. A continuous loop is run which implements the necessary functions to keep the game going such as checking which of the mouse's directional buttons are pressed. For every certain number of iterations in the loop, the cat will check and update its path towards the mouse. As the game keeps going and the user increases levels, the frequency at which the cat updates the shortest path will increase to give the player the feeling that the cat is getting smarter. The cat was programmed to only exist within the 14 by 10 tile maze and as you may notice it never walks past the outer green perimeter. In order to prevent the cat from walking through walls, the length of path coded into the black wall tiles was 140 while the white path tiles had a length of 1. Therefore, when dijkstra's algorithm is used to evaluate the shortest path between the cat and mouse, there will never be a path determined that will lead the cat to go through a wall. Another problem we had to solve was working with tile vs pixel values. As you may notice, the cat and mouse are not hopping from one tile to another and they may appear to be in between two tiles at times. We therefore had to convert back and forth between their specific pixel location and the closest tile such that the shortest path could be evaluated successfully.
+				<div class = "text">MDP and Training Plan</div>
+				Each training process can be modelled and described by a <b><a href = "https://en.wikipedia.org/wiki/Markov_decision_process" target = "_blank">Markov Decision Process</a></b> (MDP). The MDP is a mathematical framework used for modelling decision making. It typically consists of <b>States (S)</b> - which is a possible set of states or situations in which the agent (the player that is learning) can find itself in. <b>Actions (A)</b>- A set of actions that the agent can decide to perform. <b>Transition Function (P)</b>- A probability distribution that defines the likelihood of transitioning from one state to another, given a particular action. Since we are implementing Q-learning, the transition probabilities will not be explicitly modeled. <b>Reward Function (R)</b>- A function that provides immediate rewards based on the agent's actions and the state it transitions to. <b>Discount Factor (γ)</b>- A discount that lessens the value of future rewards compared to immediate rewards. The longer we have to wait for a reward the less valuable it is. <br><br>
+				The MDPs will differ depending on if we are training a cat or mouse since each agent has its own goals in the game. The training plan displayed shows the the agent towards the right. The player on the left can be seen as an "NPC" which is already an expert at what it does. Its goal is to teach an initially untrained agent to play the game well. While the theory suggests that agents should progressively improve with each training generation, practical challenges and limitations may arise, which we will explore further. 
 			</div>
-			<div class = "game_play">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/tFBFJbj3igg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			<div class = "mdp_image">
+				<img src = "images/mdp.png" class = "pic" width = "100%" alt = "">
 			</div>
 		</div>
 		<br>
 		<div class = "dijkstra_info">
 			<div class = "dijkstra">
-				<div class = "text">Dijkstra's Algorithm in action</div>
-				An example maze figure is shown where the cat is on the top left: coordinates (row 0, column 0). And the mouse is on the bottom right: coordinates (row 7, column 6). Each number on the 8 by 8 matrix represents the shortest distance from the mouse to that coordinate. A value of <b>8 x 8 = 64</b> is encoded into the path length of each wall tile. The wall tile coordinates highlighted in red show the higher values which ensure the cat will not attempt to walk through a wall. The shortest optimal path found from the mouse to the cat is highlighted in yellow. By backtracking through this path, the cat would be able to reach the mouse quickly.
-				<br><br>
-				The path found through the algorithm for the cat to take is as follows with the first index of each tuple representing rows and the second columns: <br><br><b>(1, 0) -> (2, 0) -> (2, 1) -> (2, 2) -> (3, 2) -> (4, 2) -> (5, 2) -> (5, 3) -> (6, 3) -> (7, 3) -> (7, 4) -> (7, 5) -> (7, 6) </b>
+				<div class = "text">Dijkstra's Cat vs Q1 mouse - <b>States (S)</b></div>
+				For the sake of simplicity, I will use an 8 by 8 map grid for calculations and explanations but the actual game was done in a 15 by 15 map grid. All the concepts and MDPs still apply regardless of size. Here we are trying to define all the possible states that Q1 mouse can find itself when learning to evade Dijkstra's cat and escape the maze. <br><br>
+				<ul class = "shift">
+					<li><b>The set of coordinates the mouse can be in (row = 0, col = 0)...(row = 7, col = 7) ==> Total = 8 * 8 - 19 (walls) = 45</b>. </li>
+					<li><b>Directions in which Dijkstra's cat is coming from (up, down, left, right) ==> Total = 4</b></li>
+					<li><b>Shortest distance from the cat to the mouse (1, 2,... , 14, 15) ==> Total = 15</b>.</li>
+				</ul>
+				<br>
+				So at most we will have 45 * 4 * 15  = <b>2700 states</b>. But we can do better. First of all, the cat rarely can come from all 4 directions. For example, if the mouse is in <b>(row = 7, col = 6)</b>, the cat can only come from the <b>left or right</b>. So the number of states the mouse can find itself in at <b>(row = 7, col = 6)</b> would be 2 (direction cat is coming from) * 15 (distance the cat is coming from) = <b>30</b>. Lets say the mouse was in <b>(row = 2, col = 2)</b>. The cat can come from <b>left, right, down</b>. How far can the cat be away? The black grid of values shows us the maximum distance the mouse can be from the cat at any point in the maze. At <b>(row = 2, col = 2)</b>, the cat can be at most <b>13</b> blocks away from the mouse. Therefore we have 3 * 13 states = <b>39</b>. After optimization, the number of total states we can have is <b>1295 states</b>.
 			</div>
-			<div class = "dijkstra_image">
-				<img src = "images/path.png" class = "pic" width = "100%" alt = "">
+			<div class = "state1_image">
+				<img src = "images/state1.png" class = "pic" width = "100%" alt = "">
+			</div>
+		</div>
+		<br>
+		<div class = "dijkstra_info">
+			<div class = "dijkstra">
+				<div class = "text">Dijkstra's Cat vs Q1 mouse - <b>Actions (A) and Rewards (R)</b></div>
+				The actions the mouse can take are pretty simple: <b>{up, down, left, right}</b>. If it takes an action against a wall, it will remain in the same block.<br><br>
+				To design the reward function, we offer a positive reward for desired actions and negative rewards for undesired ones. The <b>maximum distance (15)</b> which is the <b>maximum distance the cat can be from the mouse is used as a benchmark value for offering rewards</b> - this is also for convenience when we enlarge the size of the map later. One important observation we can make here is that the <b>distance between the cat and mouse CANNOT increase</b> - this is due to the nature of Dijkstra's algorithm which always takes the shortest path towards the target. So the <b>distance between the cat and mouse</b> can either <b>stay the same or decrease</b>. The reward function is shown in the dark blue table. In general, we provide the mouse with a <b>positive reward</b> for <b>maintaining the distance</b> between itself and the cat. We also consider whether the mouse gets closer to the exit - a greater positive reward is provided if the mouse gets closer to the exit. The <b>ONLY</b> time we provide a <b>positive reward</b> to the mouse for <b>getting closer to the cat</b> is if the <b>mouse can reach the exit before the cat</b>. We deter the mouse for getting closer to the cat by applying a <b>negative reward</b> which is <b>-(max distance - distance from cat to mouse)</b>. If the cat is <b>only 2 blocks away</b>, the reward will be <b>-(15 - 3) = -12</b>. If the cat is <b>14 blocks away</b>, the reward will be <b>-(15 - 14) = -1</b>. This ensures the penalty is more severe as the cat grows closer and not as severe when the cat is far away.
+			</div>
+			<div class = "state1_image">
+				<img src = "images/reward1.png" class = "pic" width = "100%" alt = "">
+			</div>
+		</div>
+		<br>
+		<div class = "dijkstra_info">
+			<div class = "dijkstra">
+				<div class = "text">Epsilon <b>(ε)</b> Greedy Strategy- Exploration vs Exploitation </div>
+				The agent often has to make the trade off between <b>exploration and exploitation</b>. <b>Exploration</b> involves trying out new actions to discover potentially greater rewards in unexplored states, while <b>exploitation</b> focuses on using past experiences to take what is believed to be the best action. The problem with the agent <b>exploiting</b> the situation is that it might overlook better opportunities that have not yet been explored. <br><br>
+
+				For example, the mouse might know that turning right yields a reward of 10. If it never explores, it may never discover that turning left could yield a reward of 15. It's like if a child had the option of choosing between eating chicken, brocolli and wagyu steak. Lets say the child had always been eating chicken which provides a reward of 5. There are two brocollis on top of the wagyu steak so the child will have to eat both the brocollis first. Suppose the child eats the brocolli instead of the chicken and it is gross giving a reward of -5 so the child goes back to eating chicken. Now the child would never try wagyu steak which provides a reward of 20. To approach this problem, we employ the <b>ε greedy strategy</b> where we force the mouse to take a random action every once in a while.<br><br>
+				The <b>ε greedy strategy</b> will involve <b>ε and a decay rate</b>. For every episode - which is a training session, <b>ε</b> will be updated by multiplying itself with the <b>decay rate</b>. Each time the mouse is to take an action, its probability of taking the best action is <b>1 - ε</b> and the probability of taking a random action is <b>ε</b>.
+			</div>
+			<div class = "state1_image">
+				<img src = "images/epsilon.png" class = "pic" width = "100%" alt = "">
+			</div>
+		</div>
+		<br>
+		<div class = "dijkstra_info">
+			<div class = "dijkstra">
+				<div class = "text">Q-learning process and algorithm</div>
+				The Q-learning update equation is shown below:
+				<br><br>
+				<strong>\( Q(s, a) \leftarrow (1 - \alpha) \cdot Q(s, a) + \alpha \cdot [r + \gamma \cdot \max_{a'} Q(s', a')] \)</strong><br><br>
+				<ul class = "shift">
+					<li>\( Q(s, a)\): Estimated Q-values (the value of taking each action) given the current state</li>
+					<li>\(\alpha \): The learning rate- how much the agent will take in new knowledge over old knowledge. A high \(\alpha \) means the agent learns quickly with new knowledge overriding past knowledge. A low \(\alpha \) means the agent will rely heaver on past knowledge. The learning will be slower but more stable.</li>
+					<li>\(r\): The immediate reward for taking action \(a\) in state \(s\).</li>
+					<li>\(\gamma\): The discount factor - represents the importance of future rewards.</li>
+					<li>\(\max_{a'} Q(s', a')\): Maximum Q-value in the next state \(s'\) (the state the agent finds itself in as a result of taking action \(a\) in state \(s\)) across all possible next actions \(a'\). The best expected future reward.</li>
+				</ul>
+				<br>
+				The steps of <b>updating the Q-table</b> (a table full of values which tell us how good it is to take an action \(a\) in state \(s\)) are as follows: The Q-table is first initialized to all zeros. Then the mouse takes an action \(a\) in state \(s\). As a result of taking action \(a\) in state \(s\), the mouse will transition to be in state \(s'\). The reward \(r\) will be calculated based on the conditions previously mentioned in <b>Actions (A) and Rewards (R)</b>. The value of the best action \(a'\) in the next state \(s'\) is found \(\max_{a'} Q(s', a')\). The value of \( Q(s, a)\) is updated based on the equation. Repeat - the mouse performs an action in this new state.
+			</div>
+			<div class = "state1_image">
+				<img src = "images/qlearn.png" class = "pic" width = "100%" alt = "">
+			</div>
+		</div>
+		<br>
+		<div class = "dijkstra_info">
+			<div class = "dijkstra">
+				<div class = "text">Example: choosing an action</div>
+				In the diagram, we have two scenarios that we might see when the mouse is in <b>state(row = <mark>7</mark>, column = <mark>1</mark>, cat is coming from <mark>Left</mark>, cat is a distance of <mark>4</mark> away)</b> or we can write <b>(7, 1, L, 4)</b> for short. The corresponding Q-table is towards the right. The values filled in are hypothetical values you might find in a Q-table which has been updated several times already. Note that these values may not be to scale or accurate but its aimed at demonstrating how the Q-table works.<br><br>
+				The first scenario towards the left, shows what might happen if the mouse is to take a random action in this state. Lets say the mouse randomly chose the action <b>up</b>. Our \( Q(s, a)\) here would be \( Q((7, 1, L, 4), up)\). We can look at the row highlighted in blue to see that performing this action would give us a <b>Q-value of -1.3</b> (which is not good). The best action would offer us a <b>Q-value of +3.7</b> which is to move <b>right</b>. The cat responds by moving downwards putting us in a new state \(s'\) (in orange) of <b>(7, 1, L, 3)</b> since the mouse hit a wall (did not move) and the cat moved one step closer.
+				<br><br>
+				The second scenario in the middle, shows what might happen if the mouse takes the best action in this state - which is <b>right</b>. The cat responds by moving downwards putting us in a new state \(s'\) (in purple) of <b>(7, 2, L, 4)</b>. 
+			</div>
+			<div class = "state1_image">
+				<img src = "images/actions.png" class = "pic" width = "100%" alt = "">
+			</div>
+		</div>
+		<br>
+		<div class = "dijkstra_info">
+			<div class = "dijkstra">
+				<div class = "text">Example continued: updating the Q-table</div>
+				I usually use <b>0.95 for both \(\alpha \) and \(\gamma \)</b> - highlighted in pink and green.<br><br>
+				Lets first take a look what happens if scenario 1 occurs. As a result of taking action \(a\) <b>up</b>, the mouse will find itself in the new state \(s'\) of <b>(7, 1, L, 3)</b>. The value of \(\max_{a'} Q(s', a')\) is the maximum Q-value of of the new state \(s'\) highlighted in orange. The maximum value is <b>+9.3</b> which is circled. The old value of \( Q(s, a)\) is <b>-1.3</b> which is the corresponding Q-value of the state action pair due to taking action \(a\) <b>up</b> in state <b>(7, 1, L, 4)</b>. To determine the reward, we can look back at the reward function previously defined. The reward that fits this scenario is the one where the mouse got closer to the cat. Therefore we apply the reward -(maximum distance - distance from cat to mouse) = -(15 - 3) = <b>-12</b>. Plug all these values into the update equation and update the value of \( Q(s, a)\) to the new calculated value of <b>-2.28</b>.<br><br>
+				We approach it the exact same way if scenario 2 occurs. As a result of taking action \(a\) <b>right</b>, the mouse will find itself in the new state \(s'\) of <b>(7, 2, L, 4)</b>. The value of \(\max_{a'} Q(s', a')\) is <b>+16.5</b>. he old value of \( Q(s, a)\) is <b>+3.7</b> which is the corresponding Q-value of the state action pair due to taking action \(a\) <b>right</b> in state <b>(7, 1, L, 4)</b>. According to the reward function, we get a <b>reward of 15</b> because the mouse maintained its <b>distance of 4</b> from the cat and also got closer to the exit (from 13 to 12 steps). Plug all these values in and update the value of \( Q(s, a)\) to the new value of <b>+29.33</b>.
+			</div>
+			<br>
+			<div class = "state1_image">
+				<img src = "images/update.png" class = "pic" width = "100%" alt = "">
 			</div>
 		</div>
 		<br>
@@ -69,7 +148,7 @@
 			</div>
 			<div class = "algorithm2">
 				<div class = "text">Mouse Mechanics</div>
-				The input push button values are read in from the GPIO port input data register and the mouse will then move towards the corresponding direction. Unlike the cat, the mouse's method of wall detection involved a more brute force approach. The challenge in this part was to ensure that not even a portion of the mouse would be able to overlap with a wall. Since both the mouse's and wall's location were only located at a single pixel coordinate, we could not just check if the two points were the same to detect wall collision obviously due to the fact that both the wall and mouse were larger than one pixel in size. Therefore each black wall tile had a "radius" of no entry to account for both the size of the wall and mouse.
+				The input push button values are read in from the GPIO port input data register and the mouse will then move towards the corresponding direction. Unlike the cat, the mouse's method of wall detection involved a more brute force approach. The challenge in this part was to ensure that not even a portion of the mouse would be able to overlap with a wall. Since both the mouse's and wall's location were only located at a single pixel coordinate, we could not just check if the two points were the same to detect wall collision obviously due to the fact that both the wall and mouse were larger than one pixel in size. Therefore each black wall tile had a "radius" of no entry to account for both the size of the wall and mouse. 
 			</div>
 		</div>
 		<br>

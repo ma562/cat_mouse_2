@@ -7,6 +7,13 @@
 	text-decoration: none;
 }
 
+.MathJax {
+    font-size: 20px !important; /* Override MathJax default styles */
+    font-weight: bold !important; /* Ensure it is bold */
+    text-align: center !important; /* Center align MathJax output */
+}
+
+
 .button-container {
     display: flex;
     justify-content: center;
@@ -165,7 +172,7 @@
 	left: 2%;
 	border-radius: 15px;
 	padding: 10px;
-	width: 50%;
+	width: 52%;
 }
 
 .game_play {
@@ -281,12 +288,24 @@
 	left: 2%;
 	border-radius: 15px;
 	padding: 10px;
-	width: 55%;
+	width: 48%;
 }
 
 .dijkstra_image {
 	position: relative;
 	width: 40%;
+	right: 2%;
+}
+
+.mdp_image {
+	position: relative;
+	width: 42%;
+	right: 2%;
+}
+
+.state1_image {
+	position: relative;
+	width: 46%;
 	right: 2%;
 }
 
@@ -393,13 +412,13 @@
 }
 
 @media (max-width: 1000px){
-	.dijkstra_image, .dijkstra, .spi, .final1, .final2, .final3, .pcb1, .pcb2, .pcb3, .kicad, .solder, .algorithm3, .initial_testing, .algorithm, .vid1 {
+	.mdp_image, .stage1_image, .dijkstra_image, .dijkstra, .spi, .final1, .final2, .final3, .pcb1, .pcb2, .pcb3, .kicad, .solder, .algorithm3, .initial_testing, .algorithm, .vid1 {
 		margin-bottom: 15px;
 	}
-	.dijkstra_image, .dijkstra, .spi, .pcb, .algorithm3, .algorithm2, .algorithm, .information {
+	.mdp_image, .stage1_image, .dijkstra_image, .dijkstra, .spi, .pcb, .algorithm3, .algorithm2, .algorithm, .information {
 		padding: 15px;
 	}
-	.dijkstra_image, .dijkstra, .spi, .final1, .final2, .final3, .pcb1, .pcb2, .pcb3, .kicad, .pcb, .solder, .algorithm3, .image1, .image2, .initial_testing, .algorithm2, .algorithm, .game_play, .vid1, .information {
+	.mdp_image, .state1_image, .dijkstra_image, .dijkstra, .spi, .final1, .final2, .final3, .pcb1, .pcb2, .pcb3, .kicad, .pcb, .solder, .algorithm3, .image1, .image2, .initial_testing, .algorithm2, .algorithm, .game_play, .vid1, .information {
 		flex: 100%;
 		left: 0%;
 		right: 0%;
