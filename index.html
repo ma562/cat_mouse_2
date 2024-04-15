@@ -94,8 +94,48 @@
 				<img src = "images/epsilon.png" class = "pic" width = "100%" alt = "">
 			</div>
 		</div>
-<!-- 		<br>
-		<div class = "dijkstra_info">
+		<br>
+				<div class = "dijkstra_info">
+			<div class = "dijkstra">
+				<div class = "text">Epsilon <b>(ε)</b> Greedy Strategy- Exploration vs Exploitation </div>
+				The agent often has to make the trade off between <b>exploration and exploitation</b>. <b>Exploration</b> involves trying out new actions to discover potentially greater rewards in unexplored states, while <b>exploitation</b> focuses on using past experiences to take what is believed to be the best action. The problem with the agent <b>exploiting</b> the situation is that it might overlook better opportunities that have not yet been explored. <br><br>
+
+				For example, the mouse might know that turning right yields a reward of 10. If it never explores, it may never discover that turning left could yield a reward of 15. It's like if a child had the option of choosing between eating chicken, brocolli and wagyu steak. Lets say the child had always been eating chicken which provides a reward of 5. There are two brocollis on top of the wagyu steak so the child will have to eat both the brocollis first. Suppose the child eats the brocolli instead of the chicken and it is gross giving a reward of -5 so the child goes back to eating chicken. Now the child would never try wagyu steak which provides a reward of 20. To approach this problem, we employ the <b>ε greedy strategy</b> where we force the mouse to take a random action every once in a while.<br><br>
+				The <b>ε greedy strategy</b> will involve <b>ε and a decay rate</b>. For every episode - which is a training session, <b>ε</b> will be updated by multiplying itself with the <b>decay rate</b>. Each time the mouse is to take an action, its probability of taking the best action is <b>1 - ε</b> and the probability of taking a random action is <b>ε</b>.
+			</div>
+			<div class = "state1_image">
+				<img src = "images/epsilon.png" class = "pic" width = "100%" alt = "">
+			</div>
+		</div>
+		<br>
+				<div class = "dijkstra_info">
+			<div class = "dijkstra">
+				<div class = "text">Epsilon <b>(ε)</b> Greedy Strategy- Exploration vs Exploitation </div>
+				The agent often has to make the trade off between <b>exploration and exploitation</b>. <b>Exploration</b> involves trying out new actions to discover potentially greater rewards in unexplored states, while <b>exploitation</b> focuses on using past experiences to take what is believed to be the best action. The problem with the agent <b>exploiting</b> the situation is that it might overlook better opportunities that have not yet been explored. <br><br>
+
+				For example, the mouse might know that turning right yields a reward of 10. If it never explores, it may never discover that turning left could yield a reward of 15. It's like if a child had the option of choosing between eating chicken, brocolli and wagyu steak. Lets say the child had always been eating chicken which provides a reward of 5. There are two brocollis on top of the wagyu steak so the child will have to eat both the brocollis first. Suppose the child eats the brocolli instead of the chicken and it is gross giving a reward of -5 so the child goes back to eating chicken. Now the child would never try wagyu steak which provides a reward of 20. To approach this problem, we employ the <b>ε greedy strategy</b> where we force the mouse to take a random action every once in a while.<br><br>
+				The <b>ε greedy strategy</b> will involve <b>ε and a decay rate</b>. For every episode - which is a training session, <b>ε</b> will be updated by multiplying itself with the <b>decay rate</b>. Each time the mouse is to take an action, its probability of taking the best action is <b>1 - ε</b> and the probability of taking a random action is <b>ε</b>.
+			</div>
+			<div class = "state1_image">
+				<img src = "images/epsilon.png" class = "pic" width = "100%" alt = "">
+			</div>
+		</div>
+		<br>
+				<div class = "dijkstra_info">
+			<div class = "dijkstra">
+				<div class = "text">Epsilon <b>(ε)</b> Greedy Strategy- Exploration vs Exploitation </div>
+				The agent often has to make the trade off between <b>exploration and exploitation</b>. <b>Exploration</b> involves trying out new actions to discover potentially greater rewards in unexplored states, while <b>exploitation</b> focuses on using past experiences to take what is believed to be the best action. The problem with the agent <b>exploiting</b> the situation is that it might overlook better opportunities that have not yet been explored. <br><br>
+
+				For example, the mouse might know that turning right yields a reward of 10. If it never explores, it may never discover that turning left could yield a reward of 15. It's like if a child had the option of choosing between eating chicken, brocolli and wagyu steak. Lets say the child had always been eating chicken which provides a reward of 5. There are two brocollis on top of the wagyu steak so the child will have to eat both the brocollis first. Suppose the child eats the brocolli instead of the chicken and it is gross giving a reward of -5 so the child goes back to eating chicken. Now the child would never try wagyu steak which provides a reward of 20. To approach this problem, we employ the <b>ε greedy strategy</b> where we force the mouse to take a random action every once in a while.<br><br>
+				The <b>ε greedy strategy</b> will involve <b>ε and a decay rate</b>. For every episode - which is a training session, <b>ε</b> will be updated by multiplying itself with the <b>decay rate</b>. Each time the mouse is to take an action, its probability of taking the best action is <b>1 - ε</b> and the probability of taking a random action is <b>ε</b>.
+			</div>
+			<div class = "state1_image">
+				<img src = "images/epsilon.png" class = "pic" width = "100%" alt = "">
+			</div>
+		</div>
+		<br>
+
+<!-- 		<div class = "dijkstra_info">
 			<div class = "dijkstra">
 				<div class = "text">Q-learning process and algorithm</div>
 				The Q-learning update equation is shown below:
@@ -115,8 +155,10 @@
 				<img src = "images/qlearn.png" class = "pic" width = "100%" alt = "">
 			</div>
 		</div>
-		<br> -->
-<!-- 		<div class = "dijkstra_info">
+		<br>
+
+
+		<div class = "dijkstra_info">
 			<div class = "dijkstra">
 				<div class = "text">Example: choosing an action</div>
 				In the diagram, we have two scenarios that we might see when the mouse is in <b>state(row = <mark>7</mark>, column = <mark>1</mark>, cat is coming from <mark>Left</mark>, cat is a distance of <mark>4</mark> away)</b> or we can write <b>(7, 1, L, 4)</b> for short. The corresponding Q-table is towards the right. The values filled in are hypothetical values you might find in a Q-table which has been updated several times already. Note that these values may not be to scale or accurate but its aimed at demonstrating how the Q-table works.<br><br>
@@ -128,8 +170,8 @@
 				<img src = "images/actions.png" class = "pic" width = "100%" alt = "">
 			</div>
 		</div>
-		<br> -->
-		<!-- <div class = "dijkstra_info">
+		<br>
+		<div class = "dijkstra_info">
 			<div class = "dijkstra">
 				<div class = "text">Example continued: updating the Q-table</div>
 				I usually use <b>0.95 for both \(\alpha \) and \(\gamma \)</b> - highlighted in pink and green.<br><br>
