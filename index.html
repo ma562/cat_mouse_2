@@ -94,7 +94,7 @@
 				<img src = "images/epsilon.png" class = "pic" width = "100%" alt = "">
 			</div>
 		</div>
-		<!-- <br>
+		<br>
 		<div class = "dijkstra_info">
 			<div class = "dijkstra">
 				<div class = "text">Q-learning process and algorithm</div>
@@ -136,10 +136,9 @@
 				Lets first take a look what happens if scenario 1 occurs. As a result of taking action \(a\) <b>up</b>, the mouse will find itself in the new state \(s'\) of <b>(7, 1, L, 3)</b>. The value of \(\max_{a'} Q(s', a')\) is the maximum Q-value of of the new state \(s'\) highlighted in orange. The maximum value is <b>+9.3</b> which is circled. The old value of \( Q(s, a)\) is <b>-1.3</b> which is the corresponding Q-value of the state action pair due to taking action \(a\) <b>up</b> in state <b>(7, 1, L, 4)</b>. To determine the reward, we can look back at the reward function previously defined. The reward that fits this scenario is the one where the mouse got closer to the cat. Therefore we apply the reward -(maximum distance - distance from cat to mouse) = -(15 - 3) = <b>-12</b>. Plug all these values into the update equation and update the value of \( Q(s, a)\) to the new calculated value of <b>-2.28</b>.<br><br>
 				We approach it the exact same way if scenario 2 occurs. As a result of taking action \(a\) <b>right</b>, the mouse will find itself in the new state \(s'\) of <b>(7, 2, L, 4)</b>. The value of \(\max_{a'} Q(s', a')\) is <b>+16.5</b>. he old value of \( Q(s, a)\) is <b>+3.7</b> which is the corresponding Q-value of the state action pair due to taking action \(a\) <b>right</b> in state <b>(7, 1, L, 4)</b>. According to the reward function, we get a <b>reward of 15</b> because the mouse maintained its <b>distance of 4</b> from the cat and also got closer to the exit (from 13 to 12 steps). Plug all these values in and update the value of \( Q(s, a)\) to the new value of <b>+29.33</b>.
 			</div>
-			<br>
 			<div class = "state1_image">
 				<img src = "images/update.png" class = "pic" width = "100%" alt = "">
 			</div>
-		</div> -->
+		</div>
 	</body>
 </html>
