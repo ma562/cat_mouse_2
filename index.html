@@ -22,7 +22,7 @@
 	<body>
 		<div class = "top_info">
 			<div class = "vid1">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/Y97T-getn5I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<iframe width="600" height="400" src="https://www.youtube.com/embed/Y97T-getn5I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
 			<div class = "information">
 				<div class = "text">About</div>
@@ -95,7 +95,7 @@
 			</div>
 		</div>
 		<br>
-				<div class = "dijkstra_info">
+		<div class = "dijkstra_info">
 			<div class = "dijkstra">
 				<div class = "text">Q-learning process and algorithm</div>
 				The Q-learning update equation is shown below:
@@ -116,56 +116,6 @@
 			</div>
 		</div>
 		<br>
-				<div class = "dijkstra_info">
-			<div class = "dijkstra">
-				<div class = "text">Epsilon <b>(ε)</b> Greedy Strategy- Exploration vs Exploitation </div>
-				The agent often has to make the trade off between <b>exploration and exploitation</b>. <b>Exploration</b> involves trying out new actions to discover potentially greater rewards in unexplored states, while <b>exploitation</b> focuses on using past experiences to take what is believed to be the best action. The problem with the agent <b>exploiting</b> the situation is that it might overlook better opportunities that have not yet been explored. <br><br>
-
-				For example, the mouse might know that turning right yields a reward of 10. If it never explores, it may never discover that turning left could yield a reward of 15. It's like if a child had the option of choosing between eating chicken, brocolli and wagyu steak. Lets say the child had always been eating chicken which provides a reward of 5. There are two brocollis on top of the wagyu steak so the child will have to eat both the brocollis first. Suppose the child eats the brocolli instead of the chicken and it is gross giving a reward of -5 so the child goes back to eating chicken. Now the child would never try wagyu steak which provides a reward of 20. To approach this problem, we employ the <b>ε greedy strategy</b> where we force the mouse to take a random action every once in a while.<br><br>
-				The <b>ε greedy strategy</b> will involve <b>ε and a decay rate</b>. For every episode - which is a training session, <b>ε</b> will be updated by multiplying itself with the <b>decay rate</b>. Each time the mouse is to take an action, its probability of taking the best action is <b>1 - ε</b> and the probability of taking a random action is <b>ε</b>.
-			</div>
-			<div class = "state1_image">
-				<img src = "images/epsilon.png" class = "pic" width = "100%" alt = "">
-			</div>
-		</div>
-		<br>
-				<div class = "dijkstra_info">
-			<div class = "dijkstra">
-				<div class = "text">Epsilon <b>(ε)</b> Greedy Strategy- Exploration vs Exploitation </div>
-				The agent often has to make the trade off between <b>exploration and exploitation</b>. <b>Exploration</b> involves trying out new actions to discover potentially greater rewards in unexplored states, while <b>exploitation</b> focuses on using past experiences to take what is believed to be the best action. The problem with the agent <b>exploiting</b> the situation is that it might overlook better opportunities that have not yet been explored. <br><br>
-
-				For example, the mouse might know that turning right yields a reward of 10. If it never explores, it may never discover that turning left could yield a reward of 15. It's like if a child had the option of choosing between eating chicken, brocolli and wagyu steak. Lets say the child had always been eating chicken which provides a reward of 5. There are two brocollis on top of the wagyu steak so the child will have to eat both the brocollis first. Suppose the child eats the brocolli instead of the chicken and it is gross giving a reward of -5 so the child goes back to eating chicken. Now the child would never try wagyu steak which provides a reward of 20. To approach this problem, we employ the <b>ε greedy strategy</b> where we force the mouse to take a random action every once in a while.<br><br>
-				The <b>ε greedy strategy</b> will involve <b>ε and a decay rate</b>. For every episode - which is a training session, <b>ε</b> will be updated by multiplying itself with the <b>decay rate</b>. Each time the mouse is to take an action, its probability of taking the best action is <b>1 - ε</b> and the probability of taking a random action is <b>ε</b>.
-			</div>
-			<div class = "state1_image">
-				<img src = "images/epsilon.png" class = "pic" width = "100%" alt = "">
-			</div>
-		</div>
-		<br>
-
-<!-- 		<div class = "dijkstra_info">
-			<div class = "dijkstra">
-				<div class = "text">Q-learning process and algorithm</div>
-				The Q-learning update equation is shown below:
-				<br><br>
-				<strong>\( Q(s, a) \leftarrow (1 - \alpha) \cdot Q(s, a) + \alpha \cdot [r + \gamma \cdot \max_{a'} Q(s', a')] \)</strong><br><br>
-				<ul class = "shift">
-					<li>\( Q(s, a)\): Estimated Q-values (the value of taking each action) given the current state</li>
-					<li>\(\alpha \): The learning rate- how much the agent will take in new knowledge over old knowledge. A high \(\alpha \) means the agent learns quickly with new knowledge overriding past knowledge. A low \(\alpha \) means the agent will rely heaver on past knowledge. The learning will be slower but more stable.</li>
-					<li>\(r\): The immediate reward for taking action \(a\) in state \(s\).</li>
-					<li>\(\gamma\): The discount factor - represents the importance of future rewards.</li>
-					<li>\(\max_{a'} Q(s', a')\): Maximum Q-value in the next state \(s'\) (the state the agent finds itself in as a result of taking action \(a\) in state \(s\)) across all possible next actions \(a'\). The best expected future reward.</li>
-				</ul>
-				<br>
-				The steps of <b>updating the Q-table</b> (a table full of values which tell us how good it is to take an action \(a\) in state \(s\)) are as follows: The Q-table is first initialized to all zeros. Then the mouse takes an action \(a\) in state \(s\). As a result of taking action \(a\) in state \(s\), the mouse will transition to be in state \(s'\). The reward \(r\) will be calculated based on the conditions previously mentioned in <b>Actions (A) and Rewards (R)</b>. The value of the best action \(a'\) in the next state \(s'\) is found \(\max_{a'} Q(s', a')\). The value of \( Q(s, a)\) is updated based on the equation. Repeat - the mouse performs an action in this new state.
-			</div>
-			<div class = "state1_image">
-				<img src = "images/qlearn.png" class = "pic" width = "100%" alt = "">
-			</div>
-		</div>
-		<br>
-
-
 		<div class = "dijkstra_info">
 			<div class = "dijkstra">
 				<div class = "text">Example: choosing an action</div>
@@ -189,6 +139,6 @@
 			<div class = "state1_image">
 				<img src = "images/update.png" class = "pic" width = "100%" alt = "">
 			</div>
-		</div> -->
+		</div>
 	</body>
 </html>

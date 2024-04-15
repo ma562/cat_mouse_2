@@ -433,6 +433,12 @@
 	.text {
 		font-size: 18px;
 	}
+
+	.MathJax {
+    font-size: 15px !important; /* Override MathJax default styles */
+    font-weight: bold !important; /* Ensure it is bold */
+    text-align: center !important; /* Center align MathJax output */
+	}
 }
 
 @media (max-width: 750px) {
